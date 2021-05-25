@@ -17,7 +17,7 @@ import JCM.Tarefas.repository.TarefaRepository;
 import JCM.Tarefas.repository.UsuarioRepository;
 
 @Configuration
-@Profile("dev")
+@Profile("prod")
 public class CarregaBaseDados {
 	
 	@Autowired
