@@ -7,7 +7,9 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import JCM.Tarefas.exception.TarefaStatusException;
 import JCM.Tarefas.model.Tarefa;
+import JCM.Tarefas.model.TarefaStatus;
 import JCM.Tarefas.repository.TarefaRepository;
 
 @Service
@@ -36,5 +38,36 @@ public class TarefaService {
 		repositorio.deleteById(id);
 	}
 	
+	public Tarefa iniciarTarefaPorId(Integer id) {
+		Tarefa tarefa = getTarefaPorId(id);
+		
+		if(TarefaStatus.ABERTO.equals(tarefa.getStatus()))
+			throw new TarefaStatusException();
+		tarefa.setStatus(TarefaStatus.EM_ANDAMENTO);
+		
+		repositorio.save(tarefa);
+		return tarefa;
+	}
+	
+	public Tarefa concluirTarefaPorId(Integer id) {
+		Tarefa tarefa = getTarefaPorId(id);
+		if(TarefaStatus.CANCELADA.equals(tarefa.getStatus()))
+			throw new TarefaStatusException();
+		
+		tarefa.setStatus(TarefaStatus.CONCLUIDA);
+		
+		repositorio.save(tarefa);
+		return tarefa;
+	}
+	
+	public Tarefa naoCancelarTarefaPorId(Integer id) {
+		
+		Tarefa tarefa = getTarefaPorId(id);
+		if(TarefaStatus.CONCLUIDA.equals(tarefa.getStatus()))
+			throw new TarefaStatusException();
+		tarefa.setStatus(TarefaStatus.CONCLUIDA);
+		repositorio.save(tarefa);
+		return tarefa ;
+	}
 
 }

@@ -13,7 +13,7 @@ import JCM.Tarefas.repository.TarefaRepository;
 
 @SpringBootTest
 public class TarefaRepositoryTest {
-	
+	/**
 	@Autowired
 	private TarefaRepository repositorio;
 	
@@ -28,5 +28,5 @@ public class TarefaRepositoryTest {
 		Assertions.assertEquals(2, tarefas.size());
 	}
 
-
+**/
 }
